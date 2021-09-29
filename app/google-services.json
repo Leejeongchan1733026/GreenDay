@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "858390371325",
+    "project_id": "sns-greenday",
+    "storage_bucket": "sns-greenday.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858390371325:android:93d4241e7c22745bc0d794",
+        "android_client_info": {
+          "package_name": "com.example.greenday"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "858390371325-mgjnvvju9pl00abqi8eo87tc39i5bpmm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1ZX-F9GvZGWLYpGhcaYe_n2oT5zhAhR4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "858390371325-mgjnvvju9pl00abqi8eo87tc39i5bpmm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
