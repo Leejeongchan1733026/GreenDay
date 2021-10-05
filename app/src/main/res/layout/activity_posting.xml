@@ -36,7 +36,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/titleEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -45,11 +45,18 @@
             android:textSize="24sp" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName2"
+            android:id="@+id/contentsEditText"
             android:layout_width="match_parent"
             android:layout_height="358dp"
             android:ems="10"
             android:hint="내용을 입력해주세요."
             android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/postingButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/BtnColor"
+            android:text="게시글 게시" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
