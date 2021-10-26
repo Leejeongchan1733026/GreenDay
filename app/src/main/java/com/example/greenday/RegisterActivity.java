@@ -1,5 +1,6 @@
 package com.example.greenday;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -20,7 +22,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;               //파이어베이스 인증처리
     private DatabaseReference mDatabaseRef;   //실시간데이터 베이스
-    private EditText editEmail, editPassword; //회운가입 입력
+    private EditText editEmail, editPassword, editName; //회원가입 입력
     private Button register;                  //회원가입 버튼
 
     @Override
@@ -33,12 +35,14 @@ public class RegisterActivity extends AppCompatActivity {
 
         editEmail = findViewById(R.id.emailEditText);
         editPassword = findViewById(R.id.passwordEditText);
+        editName = findViewById(R.id.nameEditText);
         register = findViewById(R.id.loginButton);
 
         register.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //회원가입 처리 시작
+                String strName = editName.getText().toString();
                 String strEmail = editEmail.getText().toString();
                 String strPwd = editPassword.getText().toString();
 
@@ -48,16 +52,20 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
+
                             UserAccount account = new UserAccount();
                             account.setIdToken(firebaseUser.getUid());
+                            account.setName(strName);
                             account.setEmailId(firebaseUser.getEmail());
                             account.setPassword(strPwd);
 
                             mDatabaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(account);
 
                             Toast.makeText(RegisterActivity.this, "회원가입에 성공하였습니다.", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            startActivity(intent);
                         } else {
-                            Toast.makeText(RegisterActivity.this, "회원가입에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "중복된 이메일입니다.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

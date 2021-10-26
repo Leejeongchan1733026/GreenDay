@@ -10,4 +10,5 @@
     <color name="gray">#afafaf</color>
     <color name="BtnColor">#f2df3c</color>
     <color name="BgColor">#2a9866</color>
+    <color name="BtnTextColor">#000000</color>
 </resources>

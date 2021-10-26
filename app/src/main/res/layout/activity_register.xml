@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="200dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,12 +29,14 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="409dp"
-        android:layout_height="500dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="31dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <EditText
             android:id="@+id/nameEditText"
@@ -48,7 +50,7 @@
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
             android:textColor="@color/black"
-            android:textColorHint="@color/gray" />
+            android:textColorHint="@color/BtnTextColor" />
 
         <EditText
             android:id="@+id/emailEditText"
@@ -61,7 +63,7 @@
             android:inputType="textEmailAddress"
             android:paddingLeft="10dp"
             android:textColor="@color/black"
-            android:textColorHint="@color/gray" />
+            android:textColorHint="@color/BtnTextColor" />
 
         <EditText
             android:id="@+id/passwordEditText"
@@ -72,14 +74,14 @@
             android:layout_marginBottom="20dp"
             android:background="@color/white"
             android:ems="10"
-            android:hint="비밀번호"
+            android:hint="비밀번호(6자 이상)"
             android:inputType="textPassword"
             android:padding="10dp"
             android:textColor="@color/black"
-            android:textColorHint="@color/gray" />
+            android:textColorHint="@color/BtnTextColor" />
 
         <EditText
-            android:id="@+id/passwordEditText"
+            android:id="@+id/passwordEditTextCheck"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="20dp"
@@ -92,7 +94,7 @@
             android:inputType="textPassword"
             android:padding="10dp"
             android:textColor="@color/black"
-            android:textColorHint="@color/gray" />
+            android:textColorHint="@color/BtnTextColor" />
 
         <Button
             android:id="@+id/loginButton"
@@ -101,6 +103,7 @@
             android:layout_margin="20dp"
             android:background="@color/BtnColor"
             android:text="회원가입"
+            android:textColor="@color/BtnTextColor"
             android:textSize="18sp" />
 
     </LinearLayout>

@@ -1,5 +1,6 @@
 package com.example.greenday;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +18,7 @@ public class PostingActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;               //파이어베이스 인증처리
     private DatabaseReference mDatabaseRef;   //실시간데이터 베이스
-    private EditText editTitle, editcontents;         //게시글 내용 입력
+    private EditText editTitle, editcontents; //게시글 내용 입력
     private Button posting;                   //게시물 게시 버튼
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,11 @@ public class PostingActivity extends AppCompatActivity {
                 account.setTitle(strTitle);
                 account.setContents(strContents);
 
-                mDatabaseRef.child("PostingAccount").child(strTitle).setValue(account);
+                mDatabaseRef.child("PostingAccount").push().setValue(account);
+
+                Toast.makeText(PostingActivity.this, "게시글이 작성되었습니다.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), PostViewActivity.class);
+                startActivity(intent);
                 
             }
         }));
