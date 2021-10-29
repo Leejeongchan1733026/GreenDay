@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +15,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +23,7 @@ import java.util.List;
 public class PostViewActivity extends AppCompatActivity {
 
     private FirebaseDatabase mDatabase;
-    private DatabaseReference mReference;
+    private DatabaseReference mReference = FirebaseDatabase.getInstance().getReference();
     private ChildEventListener mChild;
     private RecyclerView mPostRecyclerView;
     private PostViewAdapter mAdapter;
@@ -36,15 +38,26 @@ public class PostViewActivity extends AppCompatActivity {
 
         mData = new ArrayList<>();
 
-        mData.add(new PostAccount("제목", "내용","null"));//뷰 테스트
-        mData.add(new PostAccount("제목", "내용","null"));
-        mData.add(new PostAccount("제목", "내용","null"));
-
         mAdapter = new PostViewAdapter(mData);
         mPostRecyclerView.setAdapter(mAdapter);
 
         Button posting = (Button) findViewById(R.id.posting);
         Button MBTItest = (Button) findViewById(R.id.MBTItest);
+
+        ValueEventListener mValueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot postSnapshot: snapshot.getChildren()){
+                    PostAccount info_each = postSnapshot.getValue(PostAccount.class);
+                    mData.add(new PostAccount("d", "d", "null"));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
 
         MBTItest.setOnClickListener(new View.OnClickListener() {
             @Override
