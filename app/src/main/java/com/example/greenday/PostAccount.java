@@ -8,7 +8,7 @@ public class PostAccount {
     private  String contents;   //내용
     private String postToken;   //고유번호
 
-    public PostAccount(){} //모델클래스 리얼타임 베이스 사용 시 빈 생성자 필요
+    public PostAccount(String title, String contents){} //모델클래스 리얼타임 베이스 사용 시 빈 생성자 필요
 
     public PostAccount(String title, String contents, String postToken) {
         this.title = title;

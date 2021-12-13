@@ -10,20 +10,27 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PostViewActivity extends AppCompatActivity {
 
-    private FirebaseDatabase mDatabase;
-    private DatabaseReference mReference = FirebaseDatabase.getInstance().getReference();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseFirestore mStore = FirebaseFirestore.getInstance();   //데이터 베이스
     private ChildEventListener mChild;
     private RecyclerView mPostRecyclerView;
     private PostViewAdapter mAdapter;
@@ -36,33 +43,23 @@ public class PostViewActivity extends AppCompatActivity {
 
         mPostRecyclerView = findViewById(R.id.main_recyclerview);
 
-        mData = new ArrayList<>();
-
-        mAdapter = new PostViewAdapter(mData);
-        mPostRecyclerView.setAdapter(mAdapter);
-
         Button posting = (Button) findViewById(R.id.posting);
         Button MBTItest = (Button) findViewById(R.id.MBTItest);
+        Button MBTIrecommend = (Button) findViewById(R.id.MBTIrecommend);
 
-        ValueEventListener mValueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot postSnapshot: snapshot.getChildren()){
-                    PostAccount info_each = postSnapshot.getValue(PostAccount.class);
-                    mData.add(new PostAccount("d", "d", "null"));
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        };
 
         MBTItest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.16personalities.com/ko/"));
+                startActivity(intent);
+            }
+        });
+
+        MBTIrecommend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             }
         });
@@ -75,45 +72,30 @@ public class PostViewActivity extends AppCompatActivity {
             }
         });
     }
-    private void initDatabase() {
 
-        mDatabase = FirebaseDatabase.getInstance();
+    protected void onStart(){
+        super.onStart();
+        mData = new ArrayList<>();
+        mStore.collection("board")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            if(task.getResult() != null){
+                                for (DocumentSnapshot snap : task.getResult()){
+                                    Map<String, Object> shot = snap.getData();
+                                    String title = String.valueOf(shot.get("title"));
+                                    String contents = String.valueOf(shot.get("contents"));
+                                    PostAccount data = new PostAccount(title, contents, "null");
+                                    mData.add(data);
+                                }
 
-        mReference = mDatabase.getReference("log");
-        mReference.child("log").setValue("check");
-
-        mChild = new ChildEventListener() {
-
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-        mReference.addChildEventListener(mChild);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mReference.removeEventListener(mChild);
+                                mAdapter = new PostViewAdapter(mData);
+                                mPostRecyclerView.setAdapter(mAdapter);
+                            }
+                        }
+                    }
+                });
     }
 }

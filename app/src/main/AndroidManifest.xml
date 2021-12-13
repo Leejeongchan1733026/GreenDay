@@ -20,6 +20,7 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".PostingActivity" />
         <activity android:name=".PostViewActivity" />
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>
