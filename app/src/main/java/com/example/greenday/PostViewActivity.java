@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class PostViewActivity extends AppCompatActivity {
+public class PostViewActivity extends AppCompatActivity implements RecyclerViewItemClickListener.OnItemClickListener {
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();   //데이터 베이스
@@ -42,6 +42,8 @@ public class PostViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_postview);
 
         mPostRecyclerView = findViewById(R.id.main_recyclerview);
+
+        mPostRecyclerView.addOnItemTouchListener(new RecyclerViewItemClickListener(this, mPostRecyclerView, this));
 
         Button posting = (Button) findViewById(R.id.posting);
         Button MBTItest = (Button) findViewById(R.id.MBTItest);
@@ -97,5 +99,16 @@ public class PostViewActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        Intent intent = new Intent(this, PostActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onItemLongClick(View view, int position) {
+
     }
 }
